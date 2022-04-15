@@ -21,6 +21,7 @@ public class Dart : MonoBehaviour
         // 다트보드라는 이름이 들어간 애랑 닿으면
         if (other.gameObject.CompareTag("DartBoard"))
         {
+            PlayerUnityEngine.instance.dartplaying = true;
             mainDart.SetActive(false);
             DartBoard board = other.gameObject.GetComponent<DartBoard>();
             

@@ -31,14 +31,14 @@ public class PlayerUnityEngine : MonoBehaviour
     public GameObject finalgameClearUI;
 
     public static int clearCount = 50;
-    AudioSource audio;
     public GameObject bowAudio;
+    public bool dartplaying;
 
     // Start is called before the first frame update
     void Start()
     {
         dartCount = 10;
-        audio = GetComponent<AudioSource>();
+        dartplaying = true;
     }
 
     // Update is called once per frame
@@ -50,7 +50,10 @@ public class PlayerUnityEngine : MonoBehaviour
         GameClearUI();
         clearText.text = "Goal Score : " + clearCount + " POINT";
 
-
+        if(dartplaying == false)
+        {
+            StartCoroutine("DartPlaying");
+        }
 
 
         
@@ -66,6 +69,7 @@ public class PlayerUnityEngine : MonoBehaviour
             {
                 pressTime = 0;
             }
+            //TimeSliderRepeat();
            
             //만약 프레스타임이 맥스프레스타임이 된다면 다시 줄어들게 만들고 싶다.
           
@@ -73,8 +77,9 @@ public class PlayerUnityEngine : MonoBehaviour
            
 
         }
-        if (Input.GetMouseButtonDown(0))
+        if (dartplaying == true && Input.GetMouseButtonDown(0))
             {
+
 
             dartCount--;
             //눌렀다.
@@ -87,7 +92,7 @@ public class PlayerUnityEngine : MonoBehaviour
             {
                 //뗐다
                 isMoved = false;
-
+                dartplaying = false;
 
                 float finalForce = Mathf.Clamp01(pressTime / maxPressTime) * force;
                 float finalUpForce = Mathf.Clamp01(pressTime / maxPressTime) * upforce;
@@ -112,7 +117,21 @@ public class PlayerUnityEngine : MonoBehaviour
         slider.value = pressTime;
     }
 
+    void TimeSliderRepeat()
+    {
+        pressTime += Time.deltaTime;
+        if(pressTime > maxPressTime)
+        {
+            pressTime -= Time.deltaTime;
+        }
+    }
    
+    IEnumerator DartPlaying()
+    {
+        yield return new WaitForSeconds(3f);
+
+        dartplaying=true;
+    }
 
     void dartCountlessGameOver()
     {
