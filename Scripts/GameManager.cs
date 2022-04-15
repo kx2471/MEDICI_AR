@@ -16,15 +16,26 @@ public class GameManager : MonoBehaviour
 
     public GameObject mainMenuUI;
     public GameObject infomationText;
-    
+    public bool OnMenu;
 
+    public void Update()
+    {
+        if (OnMenu)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
 
     public void OnClickGameStart()
     {
         SceneManager.LoadScene("SampleScene");
         PlayerUnityEngine.clearCount = 50;
 
-        Time.timeScale = 1;
+        OnMenu = false;
     }
 
     public void OnClickMaineSceneReturn()
@@ -35,7 +46,7 @@ public class GameManager : MonoBehaviour
     public void OnClickMainMenu()
     {
         mainMenuUI.SetActive(true);
-        Time.timeScale = 0;
+        OnMenu = true;
         
         
     }
@@ -53,13 +64,13 @@ public class GameManager : MonoBehaviour
     public void OnclickNewGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Time.timeScale = 1;
+        OnMenu = false;
     }
 
     public void OnClickContinue()
     {
         mainMenuUI.SetActive(false);
-        Time.timeScale = 1;
+        OnMenu = false;
     }
 
     public void OnClickQuit()
@@ -72,7 +83,7 @@ public class GameManager : MonoBehaviour
        
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         PlayerUnityEngine.clearCount += 25;
-        
+        OnMenu = false;
        
     }
 }
